@@ -33,3 +33,4 @@ describe('getComparator', () => {
     expect(ascendingComparator(achilles, zorro, 'rating')).toBe(1);
   });
 });
+

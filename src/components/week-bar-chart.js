@@ -3,7 +3,7 @@ import { ResponsiveBar } from '@nivo/bar';
 import { useTheme } from '@material-ui/core';
 import { countBy } from 'lodash';
 import { format, parseISO } from 'date-fns';
-import { COMPLETED, FAILED } from 'data/constants';
+import { COMPLETED, EMPTY, FAILED } from 'data/constants';
 import { useLocale } from 'localization';
 
 function WeekBarChart({ checkmarks, dates, goal }) {
@@ -24,6 +24,7 @@ function WeekBarChart({ checkmarks, dates, goal }) {
         date,
         completed: null,
         failed: null,
+        empty: null,
       };
     }
 
@@ -34,12 +35,14 @@ function WeekBarChart({ checkmarks, dates, goal }) {
 
     const completed = avg(counts[COMPLETED]) || null;
     const failed = -avg(counts[FAILED]) || null;
+    const empty = -avg(counts[EMPTY]) || null;
 
     // Return object in the shape accepted by bar chart
     return {
       date,
       completed,
       failed,
+      empty,
     };
   });
 
@@ -54,16 +57,32 @@ function WeekBarChart({ checkmarks, dates, goal }) {
   return (
     <ResponsiveBar
       data={data}
-      keys={['completed', 'failed']}
+      keys={['completed', 'failed', 'empty']}
       indexBy="date"
-      margin={{ top: 16, right: 16, bottom: 32, left: 16 }}
+      margin={{ top: 16, right: 16, bottom: 32, left: 64 }}
       padding={0.4}
-      colors={[primary.main, secondary.main]}
+      colors={[primary.main, secondary.main, '#ccc']}
       theme={{
         textColor: text.secondary,
+        tooltip: {
+          container: {
+            background: text.primary,
+          },
+        },
       }}
-      valueScale={{ type: 'linear' }}
-      axisLeft={false}
+      valueScale={{
+        type: 'linear',
+        min: -100,
+        max: 100,
+      }}
+      axisLeft={{
+        format: yValueFormat,
+        tickSize: 0,
+        tickPadding: 8,
+        legend: 'Completion rate (%)',
+        legendPosition: 'middle',
+        legendOffset: -48,
+      }}
       axisBottom={{
         format: xValueFormat,
         tickSize: 0,
@@ -76,36 +95,25 @@ function WeekBarChart({ checkmarks, dates, goal }) {
           value: 0,
           lineStyle: { stroke: secondary.main, strokeWidth: 1 },
         },
-        // Performance goal marker
-        {
-          axis: 'y',
-          value: goal,
-          lineStyle: {
-            stroke: text.secondary,
-            strokeWidth: 1,
-            strokeDasharray: '5,5',
-          },
-          // Performance marker legend
-
-          // legend: t('goal'),
-          // legendOrientation: 'vertical',
-          // textStyle: { fill: text.secondary },
-        },
+        
+        
       ]}
+      
+      labelFormat={yValueFormat}
       enableGridX={false}
       enableGridY={false}
-      labelFormat={yValueFormat}
+      
       labelSkipWidth={12}
       labelSkipHeight={12}
       labelTextColor={getContrastText(primary.main)}
       // Animation disabled in development
       // animate={false}
-
+    
       // Interactivity - for the moment disabled. In the future might add some details.
       isInteractive={false}
       motionStiffness={140}
     />
-  );
-}
-
-export { WeekBarChart };
+    );
+  }
+  
+  export { WeekBarChart };    

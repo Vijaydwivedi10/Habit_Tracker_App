@@ -4,7 +4,6 @@ import { useDeleteUserData } from 'api/user-data';
 import { useAuth } from 'context/auth-context';
 import { useDialog } from 'context/dialog-context';
 import { useSnackbar } from 'context/snackbar-context';
-import { useTranslation } from 'translations';
 import {
   Button,
   Hidden,
@@ -15,30 +14,23 @@ import {
   ListItemText,
 } from '@material-ui/core';
 
-/**
- * Account Tab
- *
- * A tab where user can change account settings and delete the account.
- */
 function AccountTab({ disabled }) {
   const { deleteAccount } = useAuth();
   const { openDialog } = useDialog();
   const { openSnackbar } = useSnackbar();
-  const t = useTranslation();
-
   const deleteUserData = useDeleteUserData();
 
   const handleDeleteAccountClick = () => {
     openDialog({
-      title: t('deleteAccountQuestion'),
-      description: t('deleteAccountWarning'),
-      confirmText: t('deleteAccount'),
+      title: "Delete account?",
+      description: "Deleted accounts can't be recovered. All data associated with your account will be deleted.",
+      confirmText: "Delete account",
       onConfirm: async () => {
         try {
           await deleteAccount();
           await deleteUserData();
 
-          openSnackbar('success', t('accountDeleted'));
+          openSnackbar('success', "Account Deleted");
         } catch (error) {
           openSnackbar('error', error.message);
         }
@@ -57,8 +49,8 @@ function AccountTab({ disabled }) {
         </Hidden>
 
         <ListItemText
-          primary={t('deleteAccount')}
-          secondary={t('deleteAccountWarningShort')}
+          primary="Delete account"
+          secondary="Accounts can't be recovered"
         />
 
         <ListItemSecondaryAction>
@@ -68,7 +60,7 @@ function AccountTab({ disabled }) {
             variant="contained"
             onClick={handleDeleteAccountClick}
           >
-            {t('deleteAccountConfirmation')}
+            Delete
           </Button>
         </ListItemSecondaryAction>
       </ListItem>

@@ -9,11 +9,7 @@ import {
   Link,
   useTheme,
 } from '@material-ui/core';
-import { useTranslation } from 'translations';
 
-/**
- * Main form wrapper component
- */
 function Form({ children, ...props }) {
   return (
     <Box
@@ -39,9 +35,6 @@ function Form({ children, ...props }) {
   );
 }
 
-/**
- * Form header
- */
 function FormHeader({ children }) {
   return (
     <Box
@@ -54,9 +47,6 @@ function FormHeader({ children }) {
   );
 }
 
-/**
- * Form body
- */
 function FormBody({ children }) {
   return (
     <Box
@@ -71,9 +61,6 @@ function FormBody({ children }) {
   );
 }
 
-/**
- * Applies margin bottom to its children except for the last one
- */
 function FormListContainer({ children }) {
   return (
     <Box
@@ -88,9 +75,6 @@ function FormListContainer({ children }) {
   );
 }
 
-/**
- * Form primary text
- */
 function FormPrimaryText({ children }) {
   return (
     <Typography component="h1" variant="h5" align="center" gutterBottom>
@@ -99,9 +83,6 @@ function FormPrimaryText({ children }) {
   );
 }
 
-/**
- * Form secondary text
- */
 function FormSecondaryText({ children, ...props }) {
   return (
     <Typography color="textSecondary" component="div" align="center" {...props}>
@@ -116,9 +97,6 @@ function FormSecondaryText({ children, ...props }) {
   );
 }
 
-/**
- * Combined Material-ui Link and RouterLink.
- */
 function FormLink(props) {
   const { palette } = useTheme();
 
@@ -133,20 +111,11 @@ function FormLink(props) {
   );
 }
 
-/**
- * Uses `MuiLoadingButton`
- */
 function FormButton(props) {
   return <LoadingButton fullWidth variant="contained" {...props} />;
 }
 
-/**
- * Form divider
- *
- * Uses two horizontal dividers and "or" in between.
- */
 function FormDivider() {
-  const t = useTranslation();
 
   return (
     <Box
@@ -166,7 +135,7 @@ function FormDivider() {
           textTransform: 'uppercase',
         }}
       >
-        {t('or')}
+        Or
       </Box>
       <Box sx={{ flex: 1 }} clone>
         <Divider />
@@ -175,9 +144,6 @@ function FormDivider() {
   );
 }
 
-/**
- * Form error text
- */
 function FormErrorText({ children }) {
   return (
     <Box
@@ -191,15 +157,4 @@ function FormErrorText({ children }) {
   );
 }
 
-export {
-  Form,
-  FormBody,
-  FormHeader,
-  FormListContainer,
-  FormPrimaryText,
-  FormSecondaryText,
-  FormErrorText,
-  FormButton,
-  FormDivider,
-  FormLink,
-};
+export { Form, FormBody, FormHeader, FormListContainer, FormPrimaryText, FormSecondaryText, FormErrorText, FormButton, FormDivider, FormLink};

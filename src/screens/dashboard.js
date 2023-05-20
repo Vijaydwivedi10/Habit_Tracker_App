@@ -17,16 +17,6 @@ import {
   startOfWeek,
 } from 'date-fns';
 
-/**
- * Dashboard Screen
- *
- * In the dashboard there are:
- * - Habits table - user can change the completion state of the habits.
- * - User Scores - shows the user's performance for last week, current week and today.
- * - Week Picker - user can pick the week which will update the table.
- *
- * ### TODO: All time performance chart or something like that.
- */
 function DashboardScreen() {
   const locale = useLocale();
 
@@ -36,53 +26,38 @@ function DashboardScreen() {
     error: habitsError,
     isLoading: isLoadingHabits,
   } = useHabitsQuery();
-  // Checkmarks data
+
   const { data: checkmarks, error: checkmarksError } = useCheckmarksQuery();
-
   const { performanceGoal } = useUser();
-
-  // Date
   const [selectedDate, setSelectedDate] = React.useState(new Date());
   const start = startOfWeek(selectedDate, { locale });
   const end = endOfWeek(selectedDate, { locale });
 
-  // Get dates that are currently selected
   const selectedDates = eachDayOfInterval({ start, end }).map((date) =>
     lightFormat(date, 'yyyy-MM-dd')
   );
 
-  // Filter checkmarks for the selected dates
   const selectedDatesCheckmarks = checkmarks.filter((checkmark) =>
     selectedDates.includes(checkmark.date)
   );
 
-  // Loading habits data
   if (isLoadingHabits) {
     return <FullPageSpinner />;
   }
 
   const error = habitsError || checkmarksError;
 
-  /**
-   * Temporary fix
-   *
-   * Cancelled query is throwing `CancelledError`. In V3 cancellation will not throw an error anymore.
-   * https://github.com/tannerlinsley/react-query/discussions/1179
-   */
   const isCancelledError =
     checkmarksError && checkmarksError.hasOwnProperty('silent');
 
-  // Ignore cancelled errors
   if (error && !isCancelledError) {
     return <FullPageErrorFallback error={error} />;
   }
 
-  // There are no habits
   if (!habits.length) {
     return <NoHabitsScreen />;
   }
 
-  // Bar chart
   const barChart = (
     <SmallPaper>
       <WeekBarChart
@@ -94,7 +69,6 @@ function DashboardScreen() {
     </SmallPaper>
   );
 
-  // Week picker
   const weekPicker = (
     <SmallPaper>
       <WeekPicker
@@ -104,7 +78,6 @@ function DashboardScreen() {
     </SmallPaper>
   );
 
-  // Habits and checkmarks table
   const habitsTable = (
     <LargePaper>
       <HabitsTable
@@ -115,76 +88,32 @@ function DashboardScreen() {
     </LargePaper>
   );
 
-  // Performance panel
   const performancePanel = (
     <SmallPaper>
       <PerformancePanel checkmarks={checkmarks} goal={performanceGoal} />
     </SmallPaper>
   );
 
-  // Render
   return (
     <Box sx={{ height: '100%' }} clone>
-      <Container disableGutters>
-        {/* extra small screens */}
-        <Hidden smUp>
-          <Box sx={{ overflow: 'hidden' }}>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                {weekPicker}
-              </Grid>
-              <Grid item xs={12}>
-                {habitsTable}
-              </Grid>
-              <Grid item xs={12}>
-                {performancePanel}
-              </Grid>
-              <Grid item xs={12}>
-                {barChart}
-              </Grid>
-            </Grid>
-          </Box>
-        </Hidden>
-
-        {/* small screens */}
-        <Hidden smDown mdUp>
-          <Box sx={{ p: 1 }}>
-            <Grid container spacing={1}>
-              <Grid item sm={6}>
-                {performancePanel}
-              </Grid>
-              <Grid item sm={6}>
-                {weekPicker}
-              </Grid>
-              <Grid item sm={12}>
-                {habitsTable}
-              </Grid>
-              <Grid item sm={12}>
-                {barChart}
-              </Grid>
-            </Grid>
-          </Box>
-        </Hidden>
-
-        {/* medium screens and up */}
-        <Hidden mdDown>
+      <Container disableGutters>      
           <Box sx={{ p: 2 }}>
             <Grid container spacing={2}>
-              <Grid item md={4}>
+              <Grid item md={6}>
                 {barChart}
               </Grid>
-              <Grid item md={4}>
-                {performancePanel}
-              </Grid>
-              <Grid item md={4}>
+              <Grid item md={6}>
                 {weekPicker}
               </Grid>
+              <Grid item md={12}>
+                {performancePanel}
+              </Grid>
+              
               <Grid item md={12}>
                 {habitsTable}
               </Grid>
             </Grid>
           </Box>
-        </Hidden>
       </Container>
     </Box>
   );

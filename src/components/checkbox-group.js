@@ -10,14 +10,11 @@ import {
   makeStyles,
 } from '@material-ui/core';
 
-// Styles
 const useStyles = makeStyles({
   row: {
     justifyContent: 'space-around',
   },
   label: {
-    // 14px is a value taken from .MuiOutlinedInput-input
-    // so that the label is aligned equally to other labels
     padding: '0 14px',
   },
 
@@ -72,15 +69,11 @@ function CheckboxGroup({ control, name, getValues, error, label, values }) {
 }
 
 CheckboxGroup.propTypes = {
-  // React Hook Form
   control: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   getValues: PropTypes.func.isRequired,
 
-  // Array of values that is mapped over to render checkboxes
   values: PropTypes.array.isRequired,
-
-  // Properties
   error: PropTypes.bool,
   label: PropTypes.string.isRequired,
 };

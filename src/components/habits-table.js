@@ -4,7 +4,6 @@ import { format, isToday, parseISO } from 'date-fns';
 import { getComparator } from 'utils/misc';
 import { HabitRow } from './habit-row';
 import { useLocale } from 'localization';
-import { useTranslation } from 'translations';
 import {
   makeStyles,
   Table,
@@ -17,7 +16,6 @@ import {
   Typography,
 } from '@material-ui/core';
 
-// Styles
 const useStyles = makeStyles((theme) => ({
   visuallyHidden: {
     border: 0,
@@ -42,29 +40,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// Sortable Table
 function HabitsTable({ habits, checkmarks, dates }) {
   const locale = useLocale();
-  const t = useTranslation();
   const classes = useStyles();
 
   const [order, setOrder] = React.useState('desc');
   const [orderBy, setOrderBy] = React.useState('position');
 
-  // Handles sorting
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  // Cells with option to sort the habits
   const sortableCells = [
-    // { id: 'position', label: 'Nº', align: 'center' },
-    { id: 'name', label: t('habit'), align: 'left' },
+    { id: 'name', label: "Habit", align: 'left' },
   ];
 
-  // Currently selected date range cells
   const datesCells = dates.map((d) => {
     const date = parseISO(d);
 
@@ -79,10 +71,8 @@ function HabitsTable({ habits, checkmarks, dates }) {
   return (
     <TableContainer data-testid="table">
       <Table size="small">
-        {/* Table head */}
         <TableHead>
           <TableRow>
-            {/* Sortable cells */}
             {sortableCells.map(({ id, label, align }) => (
               <TableCell
                 key={id}
@@ -108,7 +98,6 @@ function HabitsTable({ habits, checkmarks, dates }) {
               </TableCell>
             ))}
 
-            {/* Date cells */}
             {datesCells.map(({ date, label }) => (
               <TableCell key={date} align="center">
                 {isToday(date) ? (
@@ -121,7 +110,6 @@ function HabitsTable({ habits, checkmarks, dates }) {
           </TableRow>
         </TableHead>
 
-        {/* Table body */}
         <TableBody>
           {sortedHabits.map((habit) => {
             const habitCheckmarks = checkmarks.filter(

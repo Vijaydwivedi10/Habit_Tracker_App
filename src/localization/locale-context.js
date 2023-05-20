@@ -10,26 +10,18 @@ import { defaultLocale, locales } from './locales';
 function LocaleProvider({ children }) {
   const [locale, setLocale] = React.useState(defaultLocale);
 
-  /**
-   * Updates locale by locale's code
-   */
+ 
   const setLocaleByCode = React.useCallback(
     (newLocaleCode) => {
-    // Find locale by its code
     const newLocale = locales.find((locale) => locale.code === newLocaleCode);
 
     if (newLocale) {
-      // Update locale with newLocale's imported object
       setLocale(newLocale.import);
     } else {
       throw new Error(`Unhandled locale code provided: ${newLocaleCode}`);
     }
   }, []);
 
-  /**
-   * Array of weekdays, starting on the first day of the week
-   * as specified in the locale
-   */
   const weekdays = React.useMemo(() => {
     const firstDayOfWeek = startOfWeek(new Date(), { locale });
 
@@ -39,10 +31,7 @@ function LocaleProvider({ children }) {
   }, [locale]);
 
   const localeValue = {
-     // Theme object has to be spread here so that it properties can be accessed directly.
     ...locale,
-
-    // Additional properties
     weekdays,
     setLocaleByCode,
   }

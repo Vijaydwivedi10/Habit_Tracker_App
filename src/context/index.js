@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryClientProvider, QueryClient } from 'react-query'
-// import { ReactQueryDevtools }  from 'react-query/devtools';
 import { ThemeProvider } from 'theme';
 import { LocaleProvider } from 'localization';
 import { AuthProvider } from './auth-context';
@@ -12,9 +11,6 @@ import { UserProvider } from './user-context';
 
 const queryClient = new QueryClient();
 
-/**
- * Shared context across all app
- */
 function AppProviders({ children }) {
   return (
     <LocaleProvider>
@@ -30,15 +26,12 @@ function AppProviders({ children }) {
             </FirebaseProvider>
           </ThemeProvider>
         </Router>
-        {/* <ReactQueryDevtools position="bottom-left" /> */}
       </QueryClientProvider>
     </LocaleProvider>
   );
 }
 
-/**
- * Context used only when the user is authenticated
- */
+
 function AuthenticatedAppProviders({ children }) {
   return <UserProvider>{children}</UserProvider>;
 }

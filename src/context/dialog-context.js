@@ -10,23 +10,10 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 
-import { useTranslation } from 'translations';
 
-// Translations
-const translations = {
-  cancelButton: {
-    pl: 'Anuluj',
-    es: 'Cancelar',
-    en: 'Cancel',
-  },
-};
-
-// Context
 const DialogContext = createContext();
 
-// Provider
 const DialogProvider = ({ children }) => {
-  const t = useTranslation(translations);
   const [dialogs, setDialogs] = useState([]);
 
   const openDialog = (props) => {
@@ -80,11 +67,10 @@ const DialogProvider = ({ children }) => {
 
             <DialogActions>
               <Button onClick={closeDialog} color={color}>
-                {t('cancelButton')}
+                Cancel
               </Button>
               <Button
                 onClick={() => {
-                  // Close the dialog and invoke the callback
                   closeDialog();
                   onConfirm();
                 }}
@@ -102,7 +88,6 @@ const DialogProvider = ({ children }) => {
   );
 };
 
-// Hook
 function useDialog() {
   const context = useContext(DialogContext);
 

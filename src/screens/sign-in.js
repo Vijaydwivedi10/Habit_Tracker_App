@@ -15,15 +15,13 @@ import {
 } from 'components/form';
 import { useAuth } from 'context/auth-context';
 import { signInSchema } from 'data/constraints';
-import { useTranslation, translations } from 'translations';
 import { useForm } from 'react-hook-form';
 import { useAsync } from 'utils/hooks';
-import { SignInAsGuestButton } from 'components/sign-in-as-guest-button';
+
 
 function SignInScreen() {
-  const t = useTranslation(translations);
 
-  const { signIn, signInWithAuthProvider, signInAsGuest } = useAuth();
+  const { signIn, signInWithAuthProvider } = useAuth();
   const { isLoading, isError: isAuthError, error: authError, run } = useAsync();
 
   const { register, handleSubmit, errors, reset } = useForm({
@@ -31,23 +29,15 @@ function SignInScreen() {
     reValidateMode: 'onSubmit',
   });
 
-  // Form submit
   const onSubmit = ({ email, password }) => {
     run(signIn({ email, password }));
     reset();
   };
 
-  // Auth provider click
   const handleAuthProviderClick = (event, provider) => {
-    // Prevents the form from submitting and triggering the form errors
     event.preventDefault();
 
     run(signInWithAuthProvider(provider));
-  };
-
-  // Sign in as Guest click
-  const handleSignInAsGuestClick = () => {
-    run(signInAsGuest());
   };
 
   const errorMessages = Object.values(errors);
@@ -57,10 +47,10 @@ function SignInScreen() {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormHeader>
-        <FormPrimaryText>{t('signIn')}</FormPrimaryText>
+        <FormPrimaryText>Sign In</FormPrimaryText>
         <FormSecondaryText>
-          {t('noAccountQuestion')}{' '}
-          <FormLink to="/signup">{t('signUp')}</FormLink>
+          Don't have an account?{' '}
+          <FormLink to="/signup">Sign Up</FormLink>
         </FormSecondaryText>
         <FormErrorText>{isError ? errorMessage : ' '}</FormErrorText>
       </FormHeader>
@@ -68,16 +58,12 @@ function SignInScreen() {
       <FormBody>
         <FormListContainer>
           <AuthProviderList
-            text={t('signInWith')}
+            text="Sign In With"
             onAuthProviderClick={handleAuthProviderClick}
             disabled={isLoading}
           />
 
-          <SignInAsGuestButton
-            label={t('signInAsGuest')}
-            disabled={isLoading}
-            onClick={handleSignInAsGuestClick}
-          />
+          
         </FormListContainer>
 
         <FormDivider />
@@ -86,8 +72,8 @@ function SignInScreen() {
           inputRef={register}
           name="email"
           autoComplete="email"
-          label={t('email')}
-          placeholder={t('emailPlaceholder')}
+          label="Email address"
+          placeholder="john@doe.com"
           error={!!errors?.email}
           disabled={isLoading}
           variant="outlined"
@@ -99,7 +85,7 @@ function SignInScreen() {
           name="password"
           type="password"
           autoComplete="current-password"
-          label={t('password')}
+          label="Password"
           placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
           error={!!errors?.password}
           disabled={isLoading}
@@ -108,11 +94,11 @@ function SignInScreen() {
         />
 
         <FormButton type="submit" pending={isLoading}>
-          {t('signIn')}
+          Sign In
         </FormButton>
 
         <FormSecondaryText>
-          <FormLink to="/reset-password">{t('forgotPassword')}</FormLink>
+          <FormLink to="/reset-password">Forgotten your password?</FormLink>
         </FormSecondaryText>
       </FormBody>
     </Form>

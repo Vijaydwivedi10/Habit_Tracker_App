@@ -2,18 +2,8 @@ import { Add as AddIcon } from '@material-ui/icons';
 import { ReactComponent as EmptyBox } from 'images/empty-box.svg';
 import { Link as RouterLink } from 'react-router-dom';
 import { Fab, Box, Typography } from '@material-ui/core';
-import { useTranslation } from 'translations';
 
-/**
- * No Habits Screen
- * 
- * This screen is used to inform the user that they don't have any habits.
- * It is used for example in 'Manage Habits Screen'. 
- * 
- * There is a big button that navigates the user to 'Add Habit Screen'
- */
 function NoHabitsScreen() {
-  const t = useTranslation();
 
   return (
     <Box
@@ -43,10 +33,10 @@ function NoHabitsScreen() {
         }}
       >
         <Typography variant="h5" gutterBottom>
-          {t('noHabitsTitle')}
+          There are no goals
         </Typography>
         <Typography variant="body1">
-          {t('noHabitsDescription')}
+          Looks like you don't have any goals yet, want to add one?
         </Typography>
       </Box>
       <Fab
@@ -63,7 +53,7 @@ function NoHabitsScreen() {
         >
           <AddIcon />
         </Box>
-        {t('addHabit')}
+        Add Goal
       </Fab>
     </Box>
   );

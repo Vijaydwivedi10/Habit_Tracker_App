@@ -2,19 +2,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Fab, Box, Typography } from '@material-ui/core';
 import { List as ListIcon } from '@material-ui/icons';
 import { ReactComponent as TowingSvg } from 'images/towing.svg';
-import { useTranslation } from 'translations';
 
-/**
- * Not Found Habit Screen
- *
- * This screen is displayed when the user tries to manually go to the
- * habit route that doesn't exist.
- *
- * There is a big button that navigates the user back to the 'Dashboard Screen'
- */
 function NotFoundHabitScreen() {
-  const t = useTranslation();
-
   return (
     <Box
       sx={{
@@ -41,7 +30,7 @@ function NotFoundHabitScreen() {
           margin: 2,
         }}
       >
-        <Typography variant="h4">{t('habitNotFound')}</Typography>
+        <Typography variant="h4">This goal doesn't exist!</Typography>
       </Box>
       <Fab
         variant="extended"
@@ -57,7 +46,7 @@ function NotFoundHabitScreen() {
         >
           <ListIcon />
         </Box>
-        {t('habitList')}
+        Goal list
       </Fab>
     </Box>
   );

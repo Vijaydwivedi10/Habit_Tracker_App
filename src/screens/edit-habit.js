@@ -10,17 +10,8 @@ import { habitSchema } from 'data/constraints';
 import { useHabitQuery, useUpdateHabitMutation } from 'api/habits';
 import { useLocale } from 'localization';
 import { NotFoundHabitScreen } from './not-found-habit';
-import {
-  Form,
-  FormBody,
-  FormButton,
-  FormErrorText,
-  FormHeader,
-  FormPrimaryText,
-} from 'components/form';
-import { useTranslation } from 'translations';
+import { Form, FormBody, FormButton, FormErrorText, FormHeader, FormPrimaryText} from 'components/form';
 
-// Default habit values
 const defaultHabit = {
   name: '',
   description: '',
@@ -29,8 +20,6 @@ const defaultHabit = {
 
 function EditHabitScreen() {
   const navigate = useNavigate();
-
-  const t = useTranslation();
   const { weekdays } = useLocale();
   const { habitId } = useParams();
   const { openSnackbar } = useSnackbar();
@@ -38,7 +27,6 @@ function EditHabitScreen() {
   const { data: habit, error: habitError, isFetching } = useHabitQuery(habitId);
   const updateHabitMutation = useUpdateHabitMutation();
 
-  // Form
   const {
     control,
     register,
@@ -52,13 +40,12 @@ function EditHabitScreen() {
     resolver: yupResolver(habitSchema),
   });
 
-  // Save edited habit
   const onSubmit = (form) => {
     updateHabitMutation.mutate(
       { id: habitId, ...form },
       {
         onSuccess: () => {
-          openSnackbar('success', t('habitSaved'));
+          openSnackbar('success', "Goal Saved!");
           navigate('/manage-habits');
         },
       }
@@ -66,7 +53,6 @@ function EditHabitScreen() {
     reset(defaultHabit);
   };
 
-  // Set initial values of the form
   React.useEffect(() => {
     if (habit) {
       const { name, description, frequency } = habit;
@@ -77,31 +63,24 @@ function EditHabitScreen() {
     }
   }, [habit, setValue, habitId]);
 
-  // Get array of errors from the form
   const formErrors = Object.values(errors);
 
-  const errorText = habitError
-    ? // If there is an error with fetching the habit it display it first
-      habitError.message
-    : // Otherwise display first form error if any
-      formErrors[0]?.message;
+  const errorText = habitError ? habitError.message : formErrors[0]?.message;
 
   if (isFetching) {
     return <FullPageSpinner />;
   }
 
-  // There is no data corresponding with the habit id
   if (!habit) {
     return <NotFoundHabitScreen />;
   }
 
-  // Disable form actions when the habit is updating
   const disableActions = updateHabitMutation.isLoading;
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormHeader>
-        <FormPrimaryText>{t('editHabit')}</FormPrimaryText>
+        <FormPrimaryText>Edit Goal</FormPrimaryText>
         <FormErrorText>{errorText || ' '}</FormErrorText>
       </FormHeader>
 
@@ -109,7 +88,7 @@ function EditHabitScreen() {
         <TextField
           inputRef={register}
           name="name"
-          label={t('habitNameLabel')}
+          label="Goal name"
           error={!!errors?.name}
           variant="outlined"
           disabled={disableActions}
@@ -119,7 +98,7 @@ function EditHabitScreen() {
         <TextField
           inputRef={register}
           name="description"
-          label={t('habitDescriptionLabel')}
+          label="Description"
           error={!!errors?.description}
           variant="outlined"
           disabled={disableActions}
@@ -128,7 +107,7 @@ function EditHabitScreen() {
 
         <CheckboxGroup
           name="frequency"
-          label={t('habitFrequencyLabel')}
+          label="Frequency"
           control={control}
           getValues={getValues}
           values={weekdays}
@@ -136,7 +115,7 @@ function EditHabitScreen() {
         />
 
         <FormButton type="submit" pending={disableActions}>
-          {t('saveHabit')}
+          Save Goal
         </FormButton>
       </FormBody>
     </Form>

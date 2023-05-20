@@ -6,7 +6,6 @@ import {
   IconButton,
   List,
   ListItem,
-  // ListItemIcon,
   ListItemText,
   Tooltip,
   useMediaQuery,
@@ -14,18 +13,15 @@ import {
 } from '@material-ui/core';
 import {
   Delete as DeleteIcon,
-  Edit as EditIcon,
-  // Folder as FolderIcon,
+  Edit as EditIcon
 } from '@material-ui/icons';
 
 import { useDialog } from 'context/dialog-context';
 import { useSnackbar } from 'context/snackbar-context';
 import { useDeleteHabitMutationMutation } from 'api/habits';
 import { useLocale } from 'localization';
-import { useTranslation } from 'translations';
 
 function HabitListItem({ habit }) {
-  const t = useTranslation();
   const { weekdays } = useLocale();
 
   const { id, name, description, frequency } = habit;
@@ -36,14 +32,13 @@ function HabitListItem({ habit }) {
   const deleteHabitMutation = useDeleteHabitMutationMutation();
 
   const handleDeleteClick = () => {
-    // Open the dialog to ask the user if they're sure to delete the habit
     openDialog({
-      title: `${t('deleteHabitQuestion')} "${name}"?`,
-      description: t('deleteHabitWarning'),
-      confirmText: t('deleteHabitConfirmation'),
+      title: "Delete" + ` "${name}"?`,
+      description: "Deleted goal can't be recovered. All data associated with this habit will be deleted.",
+      confirmText: "Delete",
       onConfirm: () => {
         deleteHabitMutation.mutate(id, {
-          onSuccess: () => openSnackbar('success', t('habitDeleted')),
+          onSuccess: () => openSnackbar('success', "Habit deleted!"),
           onError: (error) => openSnackbar('error', error.message),
         });
       },
@@ -51,13 +46,11 @@ function HabitListItem({ habit }) {
     });
   };
 
-  // Disable buttons when the habit is being deleted
   const disableActions = deleteHabitMutation.isLoading;
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.only('xs'));
 
-  // Name and description
   const text = <ListItemText primary={name} secondary={description} />;
 
   // Frequency
@@ -88,12 +81,6 @@ function HabitListItem({ habit }) {
 
   return (
     <ListItem button>
-      {/* TODO: Let user choose icon */}
-      {/* <ListItemIcon>
-        <FolderIcon />
-      </ListItemIcon> */}
-
-      {/* On small screens display frequency below the text */}
       {isXs && (
         <Box sx={{ flex: 1 }}>
           {text}
@@ -101,7 +88,6 @@ function HabitListItem({ habit }) {
         </Box>
       )}
 
-      {/* Small screens and up display frequency next to the text */}
       {!isXs && (
         <>
           {text}
@@ -109,25 +95,23 @@ function HabitListItem({ habit }) {
         </>
       )}
 
-      {/* Edit link */}
-      <Tooltip title={t('editHabit')}>
+      <Tooltip title="Edit Habit">
         <IconButton
           size={isXs ? 'small' : 'medium'}
           component={RouterLink}
           to={`/edit-habit/${id}`}
-          aria-label={t('editHabit')}
+          aria-label="Habit deleted!"
           disabled={disableActions}
         >
           <EditIcon />
         </IconButton>
       </Tooltip>
 
-      {/* Delete button */}
-      <Tooltip title={t('deleteHabit')}>
+      <Tooltip title="Delete Goal">
         <IconButton
           size={isXs ? 'small' : 'medium'}
           onClick={handleDeleteClick}
-          aria-label={t('deleteHabit')}
+          aria-label="Delete Goal"
           disabled={disableActions}
         >
           <DeleteIcon />

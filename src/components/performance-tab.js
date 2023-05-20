@@ -14,9 +14,7 @@ import {
 } from '@material-ui/core';
 import { TrackChanges as TrackChangesIcon } from '@material-ui/icons';
 import { useUpdatePerformanceGoal } from 'api/user-data';
-import { useTranslation } from 'translations';
 
-// Create array of available values  [5, 10, ..., 100]
 const performanceGoalValues = Array.from(Array(20)).map((_, i) => {
   const value = i * 5 + 5;
   return {
@@ -25,30 +23,21 @@ const performanceGoalValues = Array.from(Array(20)).map((_, i) => {
   };
 });
 
-/**
- * Performance Tab
- *
- * User can update performance related settings. For now the only setting
- * that can be changed is performance goal.
- */
+
 function PerformanceTab() {
   const { performanceGoal } = useUser();
-  const t = useTranslation();
 
   const updatePerformanceGoal = useUpdatePerformanceGoal();
 
   const handlePerformanceGoalChange = (event) => {
-    // Update user's performance goal in the database
     updatePerformanceGoal(event.target.value);
   };
 
-  // Media queries
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.only('xs'));
 
   return (
     <List disablePadding>
-      {/* Performance gaol */}
       <Box sx={{ my: 1 }}>
         <ListItem>
           {!isXs && (
@@ -59,15 +48,14 @@ function PerformanceTab() {
 
           <FormControl fullWidth variant="outlined">
             <InputLabel id="select-performance-goal-label">
-              {t('dailyGoal')}
+              Daily Goal
             </InputLabel>
 
-            {/* Mobile devices */}
             {isXs && (
               <Select
                 id="mobile"
                 native
-                label={t('dailyGoal')}
+                label="Daily Goal"
                 labelId="select-performance-goal-label"
                 value={performanceGoal}
                 onChange={handlePerformanceGoalChange}
@@ -80,11 +68,10 @@ function PerformanceTab() {
               </Select>
             )}
 
-            {/* Up mobile devices */}
             {!isXs && (
               <Select
                 id="mobile up"
-                label={t('dailyGoal')}
+                label="Daily Goal"
                 labelId="select-performance-goal-label"
                 value={performanceGoal}
                 onChange={handlePerformanceGoalChange}

@@ -16,9 +16,11 @@
     "@nivo/pie": "^0.65.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
+    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/user-event": "^12.1.10",
     "camelcase": "^6.2.0",
     "clsx": "^1.1.1",
+    "coverage": "^0.4.1",
     "date-fns": "^2.16.1",
     "firebase": "^8.0.0",
     "fontsource-roboto": "^3.1.5",
@@ -35,6 +37,7 @@
     "react-router-dom": "^6.0.0-beta.0",
     "react-scripts": "4.0.0",
     "react-swipeable-views": "^0.13.9",
+    "victory": "^36.6.10",
     "web-vitals": "^0.2.4",
     "yup": "^0.29.3"
   },
@@ -46,9 +49,25 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!<rootDir>/node_modules/",
-      "!<rootDir>/path/to/dir/"
+      "src/screens/not-found-habit.js",
+      "src/screens/user-settings.js",
+      "src/screens/not-found.js",
+      "src/screens/not-found-habit.js",
+      "src/screens/no-habits.js",
+      "src/screens/manage-habits.js",
+      "src/data/constraints.js",
+      "src/data/constants.js",
+      "src/data/auth-providers.js",
+      "src/components/checkmark.js",
+      "src/components/performance-panel/performance-panel.js",
+      "src/components/performance-panel/helpers.js",
+      "src/app/authenticated-app/drawer.js",
+      "src/app/authenticated-app/index.js",
+      "src/app/unathenticated-app/index.js",
+      "src/app/unathenticated-app/navbar.js",
+      "src/app/unathenticated-app/unauthenticated-app.js",
+      "src/components/habit-row.js",
+      "src/components/lib.js"
     ],
     "coverageThreshold": {
       "global": {
@@ -82,6 +101,11 @@
     ]
   },
   "devDependencies": {
-    "@material-ui/codemod": "^5.0.0-alpha.17"
+    "@material-ui/codemod": "^5.0.0-alpha.17",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.7",
+    "enzyme-to-json": "^3.6.2",
+    "react-test-renderer": "^18.2.0"
   }
 }

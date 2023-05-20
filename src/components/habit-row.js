@@ -5,16 +5,13 @@ import { makeStyles, TableCell, TableRow, Typography } from '@material-ui/core';
 import { getDay, parseISO } from 'date-fns';
 import { EMPTY } from 'data/constants';
 
-// Styles
 const useStyles = makeStyles((theme) => ({
-  // A trick to set width of the table cell to its content
   minWidth: {
     width: '1%',
     whiteSpace: 'nowrap',
   },
 }));
 
-// Habit row
 function HabitRow({ habit, dates, checkmarks }) {
   const classes = useStyles();
   
@@ -22,12 +19,6 @@ function HabitRow({ habit, dates, checkmarks }) {
 
   return (
     <TableRow hover>
-      {/* Position */}
-      {/* <TableCell align="center" className={classes.minWidth}>
-        {position + 1}
-      </TableCell> */}
-
-      {/* Name */}
       <TableCell
         component="th"
         scope="row"
@@ -37,14 +28,12 @@ function HabitRow({ habit, dates, checkmarks }) {
         <Typography variant="body1">{name}</Typography>
       </TableCell>
 
-      {/* Dates */}
       {dates.map((date) => {
         const dateObj = parseISO(date);
 
-        // Checkmark is disabled if the date is not tracked
-        const disabled = !frequency.includes(getDay(dateObj));
+        const disabled = !frequency.includes((getDay(dateObj)-1)%7);
+        console.log(frequency);
 
-        // Find checkmark
         const checkmark = checkmarks.find((d) => d.date === date);
 
         return (

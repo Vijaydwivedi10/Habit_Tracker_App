@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
     width: 40,
   },
 
-  // Highlighting
   highlight: {
     borderRadius: 0,
     backgroundColor: theme.palette.primary.main,
