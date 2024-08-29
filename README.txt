@@ -1,13 +1,8 @@
 SOFTWARE ENGINEERING PROJECT
 GOAL TRACKER APP
 
-Team Members:-
-	1.	Aditya Bal Gupta (2020csb1067)
-	2.	Vijay Dwivedi (2020csb1140)
-	3.	Jemee Butani (2020csb1091)
-	4.	Vaibhav (2020csb1215)
-	5.	Keshav Gulati (2020csb1095)
-
+Name: Vijay Dwivedi
+College: Indian institute of technology (IIT) Ropar.
 
 About Project:
 
